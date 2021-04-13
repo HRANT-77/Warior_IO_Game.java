@@ -9,25 +9,37 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Random random1 = new Random();
         Scanner scanner = new Scanner(System.in);
-        double archersForce = 100 + random1.nextInt(100);
-        double wizardsForce = 100 + random1.nextInt(100);
-        double archersLife=1500+ random1.nextInt(300);
-        double wizardsLife=1500+ random1.nextInt(300);
+        double archersForce = 100;
+        double wizardsForce = 100;
+        double archersLife;
+        double wizardsLife;
+
         File file = new File("doc.txt");
+        if(getCounterFromDoc()==0) {
+            archersLife = 1500 + random1.nextInt(300);
+            wizardsLife = 1500 + random1.nextInt(300);
+        }
+        else{
+            archersLife=getALifeFromDoc();
+            wizardsLife=getWLifeFromDoc();
+        }
         Archer archer1 = new Archer("Archer1", archersLife, 5.0, archersForce);
         Wizzard wizzard1 = new Wizzard("Wizzard1", wizardsLife, 15.0, wizardsForce);
+
         saveDataInFile(archer1.getLife(), wizzard1.getLife(), 1);
+
 
 
         while (true) {
             System.out.println("Input enter for playing game");
-            System.out.println("Or something for deleting file");
+            System.out.println("Or something for exit and deleting data in file");
             String input = scanner.nextLine();
             if (input == "") {
                 playingGame(archer1, wizzard1);
-            } else {
-                file.deleteOnExit();
-                System.out.println("File deleted");
+            }
+            else {
+                saveDataInFile(0,0,0);
+                System.out.println("Deleting data in file");
                 break;
             }
         }
